@@ -43,6 +43,9 @@ public class OMDbController {
     @RequestMapping(path = "/one", method = RequestMethod.GET)
     public ResponseEntity<?> getOneItem(@RequestParam(value = "imdbID", required = true) String imdbID) {
         OMDbEntity oneItem = clientSvc.getOneItem(imdbID, OMDBKey);
+        if("False".equals(oneItem.getResponse())){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(oneItem, HttpStatus.OK);
     }
 }

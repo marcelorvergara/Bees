@@ -12,7 +12,7 @@ public interface OMDbClientService {
     @GetMapping("?apikey={OMDBKey}&s={search}")
     OMDbSearchResult searchTitle(@PathVariable("search") String search, @PathVariable("OMDBKey") String OMDBKey);
 
-    @GetMapping("?apikey={OMDBKey}&i={imdbID}")
+    @GetMapping("?apikey={OMDBKey}&i={imdbID}&plot=full")
     OMDbEntity getOneItem(@PathVariable("imdbID") String imdbID, @PathVariable("OMDBKey") String OMDBKey);
     
 }
