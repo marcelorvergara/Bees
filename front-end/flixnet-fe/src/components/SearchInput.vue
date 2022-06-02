@@ -1,44 +1,56 @@
 <template>
-  <div>
-    <v-select label="Title" :filterable="false" :options="searchResult" @search="fetchOptions">
-      <template slot="no-options">
-        type to search for movie titles
-      </template>
-    </v-select>
+  <div class="container mx-auto p-5">
+    <b-row class="justify-content-center">
+      <b-col cols="6" class="d-flex">
+        <span style="font-size: 36px; color: white" class="material-symbols-outlined pe-1">search</span>
+        <b-form-input
+            style="border: 2px groove #e0bc00; background-color: #212529; color: white"
+            placeholder="Search something"
+            list="repLst"
+            @update="fetchOptions($event, selected)"
+            size="sm"
+            v-model="selected"
+            type="search"></b-form-input>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import vSelect from 'vue-select'
 import _debounce from 'lodash/debounce';
+
 export default {
   name: 'SearchInput',
-  components: {
-    vSelect
-  },
-  data () {
+  data() {
     return {
-      searchResult : []
+      selected: '',
+      searchResult: []
     }
   },
   methods: {
-    fetchOptions(search, loading){
-      if (search.length){
-        loading(true)
-        this.search(loading, search, this)
+    fetchOptions(search) {
+      if (search.length > 0) {
+        this.search(search, this)
+      } else {
+        localStorage.setItem("movieLst", JSON.stringify([{"Title": "No value"}]))
+        this.$emit('changedEvent')
       }
     },
-    search: _debounce((loading, search, vm) => {
+    search: _debounce((search, vm) => {
+      vm.searchResult = []
       axios.get("http://localhost:8080/api/all?search=" + search)
           .then((res) => {
-            console.log(res)
             vm.searchResult = res.data
-            loading(false)
+            localStorage.setItem("movieLst", JSON.stringify(res.data))
+            vm.$emit('changedEvent')
           })
           .catch((err) => {
-            loading(false)
-            console.error(err)
+            if(err.response.status === 404){
+              localStorage.setItem("movieLst", JSON.stringify([{"Title": "Not found"}]))
+              vm.$emit('changedEvent')
+            }
+            console.error(err.response)
           })
     }, 500)
   }
@@ -47,5 +59,4 @@ export default {
 
 
 <style scoped>
-@import 'vue-select/dist/vue-select.css';
 </style>

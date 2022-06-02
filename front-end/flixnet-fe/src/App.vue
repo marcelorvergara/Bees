@@ -1,16 +1,32 @@
 <template>
-  <div id="app">
-    <SearchInput/>
+  <div id="app" class="bg-dark">
+    <WeissHeader/>
+    <SearchInput @changedEvent="changeEvt()"/>
+    <SearchResults :key="changed"/>
   </div>
 </template>
 
 <script>
 import SearchInput from './components/SearchInput.vue'
+import WeissHeader from "@/components/WeissHeader";
+import SearchResults from "@/components/SearchResults";
 
 export default {
   name: 'App',
   components: {
-    SearchInput
+    SearchInput,
+    WeissHeader,
+    SearchResults
+  },
+  data () {
+    return {
+      changed: false
+    }
+  },
+  methods: {
+    changeEvt(){
+      this.changed = !this.changed
+    }
   }
 }
 </script>
