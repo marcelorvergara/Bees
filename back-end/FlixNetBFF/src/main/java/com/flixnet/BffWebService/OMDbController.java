@@ -1,6 +1,7 @@
 package com.flixnet.BffWebService;
 
 import com.flixnet.BffFeign.OMDbClientService;
+import com.flixnet.BffModel.OMDbEntity;
 import com.flixnet.BffModel.OMDbSearchResult.SearchResult;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +36,13 @@ public class OMDbController {
             return new ResponseEntity<>(sr, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.CONTINUE);
+    }
+    
+    // get one item
+    @CrossOrigin(origins = "*")
+    @RequestMapping(path = "/one", method = RequestMethod.GET)
+    public ResponseEntity<?> getOneItem(@RequestParam(value = "imdbID", required = true) String imdbID) {
+        OMDbEntity oneItem = clientSvc.getOneItem(imdbID, OMDBKey);
+        return new ResponseEntity<>(oneItem, HttpStatus.OK);
     }
 }
