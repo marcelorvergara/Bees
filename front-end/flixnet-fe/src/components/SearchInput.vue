@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto p-5">
+  <div class="container mx-auto pt-4">
     <b-row class="justify-content-center">
       <b-col cols="6" class="d-flex">
         <span style="font-size: 36px; color: white" class="material-symbols-outlined pe-1">search</span>
@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     fetchOptions(search) {
-      if (search.length > 0) {
+      if (search.length > 2) {
         this.search(search, this)
       } else {
         localStorage.setItem("movieLst", JSON.stringify([{"Title": "No value"}]))
@@ -46,11 +46,12 @@ export default {
             vm.$emit('changedEvent')
           })
           .catch((err) => {
-            if(err.response.status === 404){
-              localStorage.setItem("movieLst", JSON.stringify([{"Title": "Not found"}]))
+            if(err.response){
+              localStorage.setItem("movieLst", JSON.stringify([{"Title": "Not found", "Search": search }]))
               vm.$emit('changedEvent')
+              return
             }
-            console.error(err.response)
+            console.error(err)
           })
     }, 500)
   }
