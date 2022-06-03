@@ -42,7 +42,8 @@ export default {
       axios.get("http://localhost:8080/api/all?search=" + search)
           .then((res) => {
             vm.searchResult = res.data
-            localStorage.setItem("movieLst", JSON.stringify(res.data))
+            vm.searchResult[0].Search = search
+            localStorage.setItem("movieLst", JSON.stringify(vm.searchResult))
             vm.$emit('changedEvent')
           })
           .catch((err) => {
