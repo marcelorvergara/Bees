@@ -77,9 +77,9 @@
           </b-row>
         </b-card>
         <b-card v-else body-bg-variant="light" class="mb-3 ps-4">
-          <div v-b-hover="handleHover">
-            <b-icon v-if="hoverHeartBool" class="h1" style="position: absolute; left: 5px; top: 5px" icon="heart-fill" variant="danger"></b-icon>
-            <b-icon v-else class="h1" style="position: absolute; left: 5px; top: 5px" icon="heart" variant="danger"></b-icon>
+          <div>
+            <b-icon @click="setItem(oneItem)" class="h1 heartPosition" icon="heart" variant="danger"></b-icon>
+            <b-icon v-if="favouritiesLst.filter(f => f.imdbID === oneItem.imdbID).length > 0" @click="setItem(oneItem)"  class="h1 heartPosition" icon="heart-fill" variant="danger"></b-icon>
           </div>
           <b-card-text >
             Plot: {{ oneItem.Plot }}
@@ -126,6 +126,7 @@ export default {
   },
   methods: {
     setItem(item){
+      console.log(item)
       let favourities = JSON.parse(localStorage.getItem("favouritesLst")) || []
       if (favourities.filter(f => f.imdbID === item.imdbID).length === 0){
         favourities.push(item)
@@ -136,7 +137,6 @@ export default {
         localStorage.setItem("favouritesLst", JSON.stringify(favourities))
         this.renderAgain = !this.renderAgain
       }
-      console.log(favourities)
     },
     mainHandleHover(isHovered){
       this.mainhoverHeartBool = isHovered
