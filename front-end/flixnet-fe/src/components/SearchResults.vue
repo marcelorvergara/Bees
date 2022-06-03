@@ -13,7 +13,7 @@
           <b-icon v-if="(selectedItem === title.imdbID && mainhoverHeartBool) || favouritiesLst.filter(f => f.imdbID === title.imdbID).length > 0" @click="setItem(title)"  class="h1 heartPosition" icon="heart-fill" variant="danger"></b-icon>
         </div>
         <b-img v-if="title.Poster !== 'N/A'" @click="openModal(title.imdbID)" fluid class="posterSize" :src="title.Poster" :alt="title.Title"></b-img>
-        <div v-else @click="openModal(title.imdbID)" class="p-3 rounded-2 posterSize">
+        <div v-else @click="openModal(title.imdbID)" class="p-3 posterSize">
           <span style="color: #b9b9b9">{{ title.Title }}</span>
           <span style="color: #484747; font-size: 200px" class="material-symbols-outlined">theaters</span>
         </div>
@@ -30,7 +30,8 @@
           <b-icon @click="setItem(title)" v-if="favouritiesLst.filter(f => f.imdbID === title.imdbID).length > 0" class="h1 heartPosition" icon="heart-fill" variant="danger"></b-icon>
         </div>
         <b-img v-if="title.Poster !== 'N/A'" @click="openModal(title.imdbID)" fluid class="posterSize" :src="title.Poster" :alt="title.Title"></b-img>
-        <div v-else @click="openModal(title.imdbID)" class="p-3 rounded-2 posterSize">
+        <div v-else @click="openModal(title.imdbID)" class="p-3 posterSize">
+          teste
           <span style="color: #b9b9b9">{{ title.Title }}</span>
           <span style="color: #484747; font-size: 200px" class="material-symbols-outlined">theaters</span>
         </div>
