@@ -37,15 +37,13 @@
       </div>
     </div>
     <!--    modal-->
-    <b-modal style="position: relative" id="item-modal" size="lg" hide-footer header-bg-variant="dark" header-text-variant="light">
-      <template #modal-header="{ close }">
-        <h5>{{ oneItem.Year }}, {{ oneItem.Title }}</h5>
-        <span @click="close()" class="material-symbols-outlined rounded-2" role="button" style="font-size: 28px; border: 1px groove red">close</span>
-      </template>
+    <b-modal style="position: relative" id="item-modal" size="lg"
+             hide-footer hide-header header-bg-variant="dark" header-text-variant="light"
+             body-bg-variant="dark" body-text-variant="light">
         <div v-if="loading" class="text-center p-3">
           <b-spinner variant="secondary" style="width: 6rem; height: 6rem;"></b-spinner>
         </div>
-        <b-card :key="renderAgain" v-else-if="oneItem.Poster !== 'N/A'" body-bg-variant="light" class="mb-3">
+        <b-card :key="renderAgain" v-else-if="oneItem.Poster !== 'N/A'" body-bg-variant="dark" class="mb-3">
           <b-row>
             <b-col md="5">
               <div>
@@ -55,6 +53,10 @@
               <b-card-img :src="oneItem.Poster" :img-alt="oneItem.Title"></b-card-img>
             </b-col>
             <b-col md="7">
+              <b-card-text>
+                <h3>{{ oneItem.Title }}</h3>
+                <p class="font-weight-lighter" style="font-size: 20px">{{ oneItem.Year }}</p>
+              </b-card-text>
               <b-card-text>
                 Plot: {{ oneItem.Plot }}
               </b-card-text>
@@ -76,29 +78,35 @@
             </b-col>
           </b-row>
         </b-card>
-        <b-card v-else body-bg-variant="light" class="mb-3 ps-4">
+        <b-card v-else body-bg-variant="dark" class="mb-3">
           <div>
             <b-icon @click="setItem(oneItem)" class="h1 heartPosition" icon="heart" variant="danger"></b-icon>
             <b-icon v-if="favouritiesLst.filter(f => f.imdbID === oneItem.imdbID).length > 0" @click="setItem(oneItem)"  class="h1 heartPosition" icon="heart-fill" variant="danger"></b-icon>
           </div>
-          <b-card-text >
-            Plot: {{ oneItem.Plot }}
-          </b-card-text>
-          <b-card-text >
-            Genre: {{ oneItem.Genre }}
-          </b-card-text>
-          <b-card-text >
-            Director: {{ oneItem.Director }}
-          </b-card-text>
-          <b-card-text >
-            Actors: {{ oneItem.Actors }}
-          </b-card-text>
-          <b-card-text >
-            <b-form-rating size="sm" variant="warning" v-model="oneItem.imdbRating" stars="10" readonly show-value inline no-border disabled></b-form-rating>
-          </b-card-text>
-          <b-card-text v-if="oneItem.Website !== 'N/A'">
-            Website: {{ oneItem.Website }}
-          </b-card-text>
+          <div class="ms-5">
+            <b-card-text>
+              <h3>{{ oneItem.Title }}</h3>
+              <p class="font-weight-lighter" style="font-size: 20px">{{ oneItem.Year }}</p>
+            </b-card-text>
+            <b-card-text >
+              Plot: {{ oneItem.Plot }}
+            </b-card-text>
+            <b-card-text >
+              Genre: {{ oneItem.Genre }}
+            </b-card-text>
+            <b-card-text >
+              Director: {{ oneItem.Director }}
+            </b-card-text>
+            <b-card-text >
+              Actors: {{ oneItem.Actors }}
+            </b-card-text>
+            <b-card-text >
+              <b-form-rating size="sm" variant="warning" v-model="oneItem.imdbRating" stars="10" readonly show-value inline no-border disabled></b-form-rating>
+            </b-card-text>
+            <b-card-text v-if="oneItem.Website !== 'N/A'">
+              Website: {{ oneItem.Website }}
+            </b-card-text>
+          </div>
         </b-card>
     </b-modal>
   </div>
@@ -126,7 +134,6 @@ export default {
   },
   methods: {
     setItem(item){
-      console.log(item)
       let favourities = JSON.parse(localStorage.getItem("favouritesLst")) || []
       if (favourities.filter(f => f.imdbID === item.imdbID).length === 0){
         favourities.push(item)
